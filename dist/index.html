@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+  
+  <!-- PWA & Mobile -->
+  <meta name="theme-color" content="#047857">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AgroPro">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23047857' width='100' height='100'/><text x='50' y='60' font-size='60' fill='white' text-anchor='middle'>🐄</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23047857' width='180' height='180' rx='40'/><text x='90' y='110' font-size='100' fill='white' text-anchor='middle'>🐄</text></svg>">
+  
+  <!-- Meta Tags SEO -->
+  <meta name="description" content="AgroPro - La finca en tu bolsillo. PWA para gestión ganadera en Colombia. Offline-first, diseño moderno, producción de leche digital.">
+  <meta name="keywords" content="ganadería, finca, producción leche, Colombia, app, offline">
+  <meta name="author" content="AgroPro">
+  
+  <!-- Tailwind CSS (procesado por Vite en build) -->
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      overflow-x: hidden;
+    }
+    
+    #root {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+    
+    /* Optimizaciones para iOS */
+    input, button, select, textarea {
+      -webkit-appearance: none;
+      -webkit-border-radius: 0;
+      font-size: 16px; /* Evita zoom automático */
+    }
+    
+    textarea {
+      border-radius: 8px;
+    }
+    
+    /* Scroll suave */
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    /* PWA Safe Areas */
+    @supports (padding: max(0px)) {
+      body {
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
+      }
+    }
+    
+    /* Animaciones suaves */
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .animate-slide-in {
+      animation: slideIn 0.3s ease-out;
+    }
+  </style>
+  
+  <title>AgroPro - La Finca en Tu Bolsillo</title>
+  <script type="module" crossorigin src="/assets/index-DIPSxE4L.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/lucide-D-annlkU.js">
+  <link rel="modulepreload" crossorigin href="/assets/recharts-BDFTlfXj.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-vg6I0BHX.css">
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div id="loading" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #ecfdf5 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    font-family: 'Geist', sans-serif;
+  ">
+    <div style="text-align: center;">
+      <div style="font-size: 60px; margin-bottom: 20px;">🐄</div>
+      <h1 style="font-size: 28px; font-weight: 700; color: #047857; margin-bottom: 10px;">AgroPro</h1>
+      <p style="font-size: 14px; color: #64748b;">Cargando la finca...</p>
+      <div style="margin-top: 30px; display: flex; gap: 4px; justify-content: center;">
+        <div style="width: 8px; height: 8px; background: #047857; border-radius: 50%; animation: bounce 1.4s infinite;"></div>
+        <div style="width: 8px; height: 8px; background: #047857; border-radius: 50%; animation: bounce 1.4s infinite 0.2s;"></div>
+        <div style="width: 8px; height: 8px; background: #047857; border-radius: 50%; animation: bounce 1.4s infinite 0.4s;"></div>
+      </div>
+    </div>
+    <style>
+      @keyframes bounce {
+        0%, 80%, 100% { transform: scaleY(1); }
+        40% { transform: scaleY(0.4); }
+      }
+    </style>
+  </div>
+
+  <!-- React App Root -->
+  <div id="root"></div>
+
+  <!-- Service Worker Registration -->
+  <script>
+    // Solo registrar en HTTPS o localhost (evita non-app-bound domain error)
+    const isHTTPS = location.protocol === 'https:';
+    const isLocalhost = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    const canRegisterSW = isHTTPS || isLocalhost;
+    
+    if ('serviceWorker' in navigator && canRegisterSW) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+          .then(reg => {
+            console.log('✓ Service Worker registrado correctamente');
+          })
+          .catch(err => {
+            console.log('Service Worker error (esperado en algunos dominios):', err.message);
+          });
+      });
+    } else if (!canRegisterSW && 'serviceWorker' in navigator) {
+      console.log('ℹ️ Service Worker requiere HTTPS o localhost. Offline funciona igual.');
+    }
+    
+    // Detectar cambios online/offline
+    window.addEventListener('online', () => {
+      console.log('✓ Conectado');
+    });
+    
+    window.addEventListener('offline', () => {
+      console.log('✗ Modo offline');
+    });
+    
+    // Ocultar loading cuando React carga
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loading = document.getElementById('loading');
+        if (loading) {
+          loading.style.opacity = '0';
+          loading.style.transition = 'opacity 0.3s ease-out';
+          setTimeout(() => {
+            loading.style.display = 'none';
+          }, 300);
+        }
+      }, 300);
+    });
+    
+    // Prevenir zoom accidental en iOS
+    document.addEventListener('touchmove', (e) => {
+      if (e.scale !== 1) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+  </script>
+
+  <!-- React (Vite maneja las dependencias) -->
+</body>
+</html>
